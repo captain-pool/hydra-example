@@ -82,7 +82,7 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
     pprint.pprint(wandb_cfg)
 
     runtime_cfg = hydra.core.hydra_config.HydraConfig.get()
-    ismultirun = omegaconf.Omegaruntime_cfg.job.get("id", -1) >= 0
+    ismultirun = runtime_cfg.job.get("id", -1) >= 0
 
     with wandb.init(**cfg.wandb.setup, group=str(cfg.model.norm_type)):
 
