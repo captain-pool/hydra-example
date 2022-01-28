@@ -98,6 +98,7 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
 
         if not ismultirun:
             epoch_iter = tqdm.tqdm(epoch_iter, position=0, leave=False)
+        else:
             logging.warning("[MULTIRUN] Logged Metrics only available on :%s", run.url)
 
         for epoch in epoch_iter:
