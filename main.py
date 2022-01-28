@@ -82,9 +82,9 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
     pprint.pprint(wandb_cfg)
 
     runtime_cfg = hydra.core.hydra_config.HydraConfig.get()
-    ismultirun = runtime_cfg.job.get("id", -1) >= 0
+    ismultirun = int(runtime_cfg.job.get("id", -1)) >= 0
 
-    with wandb.init(**cfg.wandb.setup, group=str(cfg.model.norm_type)):
+    with wandb.init(**cfg.wandb.setup, group=str(cfg.model.norm_type)) as run:
 
         net = model.ConvNet(
             cfg.dataset.image_dim, cfg.dataset.num_classes, **cfg.model
@@ -98,6 +98,7 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
 
         if not ismultirun:
             epoch_iter = tqdm.tqdm(epoch_iter, position=0, leave=False)
+            logging.warning("[MULTIRUN] Logged Metrics only available on :%s", run.url)
 
         for epoch in epoch_iter:
 
