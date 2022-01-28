@@ -99,7 +99,7 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
                 loss.backward()
                 optimizer.step()
                 wandb.log({"train/loss": loss})
-        test_loop(test_loader, net, epoch)
+            test_loop(test_loader, net, epoch)
 
 
 if __name__ == "__main__":
