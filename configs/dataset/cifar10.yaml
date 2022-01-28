@@ -1,0 +1,9 @@
+---
+name: cifar10
+dir: cifar10/
+train_batch: 32
+test_batch: 10
+image_dim:
+    - 32
+    - 32
+num_classes: 10
