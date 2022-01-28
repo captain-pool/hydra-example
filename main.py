@@ -79,7 +79,7 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
         cfg, resolve=True, throw_on_missing=True
     )
     pprint.pprint(wandb_cfg)
-    with wandb.init(**cfg.wandb.setup, group=str(cfg.train.norm_type)):
+    with wandb.init(**cfg.wandb.setup, group=str(cfg.model.norm_type)):
 
         net = model.ConvNet(
             cfg.dataset.image_dim, cfg.dataset.num_classes, **cfg.model
