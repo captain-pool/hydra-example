@@ -60,7 +60,7 @@ def test_loop(test_loader, net, epoch, job_id):
         acc = 100 * correct / total
         wandb.log({"epoch": epoch, "test/accuracy": acc})
         logging.warning(
-            "[Job ID = %d] Test: Epoch %d: Accuracy: %f", job_id, epoch, acc
+            "[Job ID = %s] Test: Epoch %d: Accuracy: %f", job_id, epoch, acc
         )
         wandb.log({"test/predictions": test_table})
 
@@ -82,8 +82,8 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
     pprint.pprint(wandb_cfg)
 
     runtime_cfg = hydra.core.hydra_config.HydraConfig.get()
-    job_id = int(runtime_cfg.job.get("id", -1))
-    ismultirun = job_id >= 0
+    job_id = runtime_cfg.job.get("id", -1)
+    ismultirun = job_id != -1
 
     with wandb.init(**cfg.wandb.setup, group=str(cfg.model.norm_type)) as run:
 
