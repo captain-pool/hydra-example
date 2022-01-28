@@ -97,14 +97,14 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
         train_iter = train_loader
 
         if not ismultirun:
-            epoch_iter = tqdm.tqdm(epoch_bar, position=0, leave=False)
+            epoch_iter = tqdm.tqdm(epoch_iter, position=0, leave=False)
 
         for epoch in epoch_iter:
 
             net.train()
 
             if not ismultirun:
-                train_iter = tqdm.tqdm(train_loader, position=1, leave=False)
+                train_iter = tqdm.tqdm(train_iter, position=1, leave=False)
 
             for images, labels in train_iter:
                 images = images.to(device)
