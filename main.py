@@ -85,7 +85,9 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
     job_id = runtime_cfg.job.get("id", -1)
     ismultirun = job_id != -1
 
-    with wandb.init(**cfg.wandb.setup, group=str(cfg.model.norm_type)) as run:
+    with wandb.init(
+        **cfg.wandb.setup, group=str(cfg.model.norm_type), config=wandb_cfg
+    ) as run:
 
         net = model.ConvNet(
             cfg.dataset.image_dim, cfg.dataset.num_classes, **cfg.model
