@@ -84,10 +84,8 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
     runtime_cfg = hydra.core.hydra_config.HydraConfig.get()
     job_id = runtime_cfg.job.get("id", -1)
     ismultirun = job_id != -1
-
-    with wandb.init(
-        **cfg.wandb.setup, group=str(cfg.model.norm_type), config=wandb_cfg
-    ) as run:
+    group_key = f"{cfg.dataset.name}-{cfg.model.norm_type}"
+    with wandb.init(**cfg.wandb.setup, group=group_key, config=wandb_cfg) as run:
 
         net = model.ConvNet(
             cfg.dataset.image_dim, cfg.dataset.num_classes, **cfg.model
