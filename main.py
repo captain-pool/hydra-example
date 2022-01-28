@@ -8,6 +8,7 @@ sys.path.append("5029e7a6e431bc04135de662326ea682")
 import omegaconf
 import torch
 import torchvision
+import tqdm
 
 import dataset
 import hydra
@@ -79,6 +80,10 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
         cfg, resolve=True, throw_on_missing=True
     )
     pprint.pprint(wandb_cfg)
+
+    runtime_cfg = hydra.core.hydra_config.HydraConfig.get()
+    ismultirun = omegaconf.Omegaruntime_cfg.job.get("id", -1) >= 0
+
     with wandb.init(**cfg.wandb.setup, group=str(cfg.model.norm_type)):
 
         net = model.ConvNet(
@@ -88,9 +93,20 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
         optimizer_class = getattr(torch.optim, cfg.train.optimizer)
         optimizer = optimizer_class(net.parameters(), lr=cfg.train.lr)
 
-        for epoch in range(cfg.train.epochs):
+        epoch_iter = range(cfg.train.epochs)
+        train_iter = train_loader
+
+        if not ismultirun:
+            epoch_iter = tqdm.tqdm(epoch_bar, position=0, leave=False)
+
+        for epoch in epoch_iter:
+
             net.train()
-            for images, labels in train_loader:
+
+            if not ismultirun:
+                train_iter = tqdm.tqdm(train_loader, position=1, leave=False)
+
+            for images, labels in train_iter:
                 images = images.to(device)
                 labels = labels.to(device)
                 outputs = net(images)
