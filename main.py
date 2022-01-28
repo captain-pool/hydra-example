@@ -60,7 +60,7 @@ def test_loop(test_loader, net, epoch, job_id):
         acc = 100 * correct / total
         wandb.log({"epoch": epoch, "test/accuracy": acc})
         logging.warning(
-            "[Job ID = %02d] Test: Epoch %d: Accuracy: %f", job_id, epoch, acc
+            "[Job ID = %d] Test: Epoch %d: Accuracy: %f", job_id, epoch, acc
         )
         wandb.log({"test/predictions": test_table})
 
