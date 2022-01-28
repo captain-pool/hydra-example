@@ -71,7 +71,7 @@ def run_experiment(cfg: omegaconf.DictConfig) -> None:
     base_path = pathlib.Path(hydra.utils.get_original_cwd())
     (train_loader, test_loader), _ = dataset.get_dataset(
         cfg.dataset.name,
-        base_path / cfg.dataset.dir,
+        (base_path / "data") / cfg.dataset.dir,
         cfg.dataset.train_batch,
         cfg.dataset.test_batch,
     )
