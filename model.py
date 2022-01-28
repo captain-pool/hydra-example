@@ -11,7 +11,7 @@ class ConvNet(nn.Module):
             *hook.conv_hook(
                 nn.Conv2d(
                     channels,
-                    kwargs["l1_size"],
+                    kwargs["conv1_size"],
                     kwargs["kernel_size"],
                     stride=1,
                     padding=2,
@@ -24,8 +24,8 @@ class ConvNet(nn.Module):
         self.layer2 = nn.Sequential(
             *hook.conv_hook(
                 nn.Conv2d(
-                    kwargs["l1_size"],
-                    kwargs["l2_size"],
+                    kwargs["conv1_size"],
+                    kwargs["conv2_size"],
                     kwargs["kernel_size"],
                     stride=1,
                     padding=2,
@@ -35,7 +35,7 @@ class ConvNet(nn.Module):
             nn.ReLU(),
             *hook.conv_hook(nn.MaxPool2d(kernel_size=2, stride=2))
         )
-        self.fc = nn.Linear(7 * 7 * kwargs["l2_size"], num_classes)
+        self.fc = nn.Linear(kwargs["dense_size"], num_classes)
         self.softmax = nn.Softmax(num_classes)
 
     def forward(self, inp):
