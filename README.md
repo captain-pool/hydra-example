@@ -7,6 +7,18 @@ and demonstrate how Hydra can be used to configure the codebase.
 
 ## Usage
 
+**NOTE**: This repo relies on a submodule [`normalizations`](https://gist.github.com/captain-pool/5029e7a6e431bc04135de662326ea682)
+To properly use the repository clone the repository recursively.
+```bash
+$ git clone --recursive https://github.com/captain-pool/hydra-example
+```
+To pull the submodule after cloning:
+```bash
+$ git submodule update --init
+```
+
+### Runing Experiments
+
 For single run (with default architecture):
 ```bash
 $ python3 main.py dataset=mnist
